@@ -86,20 +86,33 @@ class DriveAPI:
         except:
             raise UploadError("Can't Upload File.")
 
-obj = DriveAPI()
-try:
-    action = int(os.sys.argv[1])
-except:
-    help = f"USAGE: {os.sys.argv[0]} [1|2|3]\n1 - Download file, 2- Upload File, 3- Exit.\n"
-    print(help)
-    exit(0)
 
-if action == 1:
-    f_id = input("Enter file id: ")
-    f_name = input("Enter file name: ")
-    obj.FileDownload(f_id, f_name)
-elif action == 2:
-    f_path = input("Enter full file path: ")
-    obj.FileUpload(f_path)
-else:
-    exit()
+def main():
+    obj = DriveAPI()
+    try:
+        action = int(os.sys.argv[1])
+    except:
+        help = f"USAGE: {os.sys.argv[0]} [1|2|3]\n1 - Download file, 2- Upload File, 3- Exit.\n"
+        print(help)
+        exit(0)
+
+    if action == 1:
+        f_id = input("Enter file id: ")
+        f_name = input("Enter file name: ")
+        obj.FileDownload(f_id, f_name)
+    elif action == 2:
+        f_path = input("Enter full file path: ")
+        obj.FileUpload(f_path)
+    else:
+        try:
+            os.remove("token.pickle")
+        except:
+            pass
+        finally:
+            exit()
+    try:
+        os.remove("token.pickle")
+        exit(0)
+    except:
+        exit(1)
+main()
