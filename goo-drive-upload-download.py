@@ -11,7 +11,7 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 
 
-class DriveAPI:
+class Drive:
     SCOPES = ["https://www.googleapis.com/auth/drive"]
 
     def __init__(self):
@@ -44,7 +44,7 @@ class DriveAPI:
         print("Here's a list of files: \n")
         print(*items, sep="\n", end="\n\n")
 
-    def FileDownload(self, file_id, file_name):
+    def download(self, file_id, file_name):
         request = self.service.files().get_media(fileId=file_id)
         fh = io.BytesIO()
 
@@ -66,7 +66,7 @@ class DriveAPI:
             print("Something went wrong.")
             return False
 
-    def FileUpload(self, filepath):
+    def upload(self, filepath):
         name = filepath.split("/")[-1]
         mimetype = MimeTypes().guess_type(name)[0]
 
@@ -88,7 +88,7 @@ class DriveAPI:
 
 
 def main():
-    obj = DriveAPI()
+    obj = Drive()
     try:
         action = int(os.sys.argv[1])
     except:
@@ -99,10 +99,10 @@ def main():
     if action == 1:
         f_id = input("Enter file id: ")
         f_name = input("Enter file name: ")
-        obj.FileDownload(f_id, f_name)
+        obj.download(f_id, f_name)
     elif action == 2:
         f_path = input("Enter full file path: ")
-        obj.FileUpload(f_path)
+        obj.upload(f_path)
     else:
         try:
             os.remove("token.pickle")
